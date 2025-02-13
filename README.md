@@ -4,7 +4,7 @@ A simple yet powerful web application that analyzes images and provides natural 
 
 ## 🌟 Demo
 
-Try out the live demo here: [Image Analysis Tool Demo](https://image-analysis-tool.streamlit.app)
+Try out the live demo here: [Image Analysis Tool Demo](https://my-image-analysis-tool.streamlit.app/)
 
 ## 🎯 Features
 
