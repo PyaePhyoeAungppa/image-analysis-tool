@@ -1,0 +1,14 @@
+# requirements.txt
+streamlit==1.31.0
+pillow==10.2.0
+transformers==4.37.2
+torch==2.2.0
+protobuf==4.25.2
+
+# .gitignore
+venv/
+__pycache__/
+*.pyc
+.env
+.DS_Store
+.streamlit/
