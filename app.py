@@ -44,7 +44,7 @@ def main():
                 image = Image.open(io.BytesIO(image_bytes))
                 
                 # Display the image
-                st.image(image_bytes, caption='Uploaded Image', use_container_width=True)
+                st.image(image_bytes, caption='Uploaded Image', use_column_width=True)
 
                 # Process the image
                 with st.spinner('Analyzing image...'):
