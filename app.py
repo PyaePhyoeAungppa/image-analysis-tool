@@ -30,37 +30,38 @@ def main():
     # Title
     st.markdown("<h1 style='text-align: center;'>Image Analysis Tool</h1>", unsafe_allow_html=True)
 
-    # Initialize image captioning pipeline
-    image_captioner = pipeline("image-to-text", model="Salesforce/blip-image-captioning-base")
+    try:
+        # Initialize image captioning pipeline
+        image_captioner = pipeline("image-to-text", model="Salesforce/blip-image-captioning-base")
 
-    # File uploader
-    with st.container():
-        st.markdown('<div class="uploadSection">', unsafe_allow_html=True)
+        # File uploader
         uploaded_file = st.file_uploader("Choose an image...", type=['png', 'jpg', 'jpeg'])
-        st.markdown('</div>', unsafe_allow_html=True)
 
-    if uploaded_file is not None:
-        # Display the uploaded image
-        image = Image.open(uploaded_file)
-        
-        # Center the image
-        col1, col2, col3 = st.columns([1, 2, 1])
-        with col2:
-            st.image(image, use_container_width=True)
+        if uploaded_file is not None:
+            try:
+                # Read the image
+                image_bytes = uploaded_file.read()
+                image = Image.open(io.BytesIO(image_bytes))
+                
+                # Display the image
+                st.image(image_bytes, caption='Uploaded Image', use_container_width=True)
 
-        # Process the image
-        with st.spinner('Analyzing image...'):
-            # Convert PIL Image to bytes
-            img_byte_arr = io.BytesIO()
-            image.save(img_byte_arr, format=image.format)
-            img_byte_arr = img_byte_arr.getvalue()
-            
-            # Get image description
-            result = image_captioner(image)
-            description = result[0]['generated_text']
+                # Process the image
+                with st.spinner('Analyzing image...'):
+                    # Get image description
+                    result = image_captioner(image)
+                    description = result[0]['generated_text']
 
-        # Display result
-        st.markdown(f'<div class="result">{description}</div>', unsafe_allow_html=True)
+                # Display result
+                st.markdown(f'<div class="result">{description}</div>', unsafe_allow_html=True)
+                
+            except Exception as e:
+                st.error(f"Error processing image: Please try uploading a different image")
+                st.exception(e)
+
+    except Exception as e:
+        st.error("Error initializing the model. Please try refreshing the page.")
+        st.exception(e)
 
 if __name__ == '__main__':
     main()
